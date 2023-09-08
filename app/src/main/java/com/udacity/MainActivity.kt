@@ -14,6 +14,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.RadioButton
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.udacity.databinding.ActivityMainBinding
 
@@ -36,12 +37,17 @@ class MainActivity : AppCompatActivity() {
 
         registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
 
-        val abc = binding.mainLayout
-
-        abc.customButton.setOnClickListener {
+        binding.mainLayout.customButton.setOnClickListener {
             if (selectedLink != null) {
-                abc.customButton.buttonState = ButtonState.Loading
+                binding.mainLayout.customButton.buttonState = ButtonState.Loading
                 download()
+            } else {
+                binding.mainLayout.customButton.buttonState = ButtonState.Clicked
+                Toast.makeText(
+                    applicationContext,
+                    getString(R.string.notify_select_file),
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
         createNotifyChannel(CHANNEL_ID, "Notify Channel Name")
